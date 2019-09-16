@@ -1,0 +1,332 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(1162)https://accounts.login.idm.telekom.com/idmip?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&openid.return_to=https%3A%2F%2Ftipi.api.t-online.de%2Fsrp-auth%2FoneIdm%2Fverify%3FreturnToUrl%3Dhttp%3A%2F%2Fwww.t-online.de%2F-%2Fid_62530878%2Ftid_tsr-landingpage-popup%2Findex&openid.realm=https%3A%2F%2Ftipi.api.t-online.de&openid.assoc_handle=S2ada68c5-4f99-492b-a867-67c590bfbdfc&openid.mode=checkid_setup&openid.ns.ext1=http%3A%2F%2Fopenid.net%2Fsrv%2Fax%2F1.0&openid.ext1.mode=fetch_request&openid.ext1.type.attr1=urn%3Atelekom.com%3Aall&openid.ext1.required=attr1&openid.ns.ext2=http%3A%2F%2Fidm.telekom.com%2Fopenid%2Foauth2%2F1.0&openid.ext2.client_id=10LIVESAM30000004901PORTAL00000000000000&openid.ext2.scopes=W3sic2NvcGUiOiJzcGljYSJ9XQ%3D%3D&openid.ns.ext3=http%3A%2F%2Fidm.telekom.com%2Fopenid%2Fext%2F2.0&openid.ext3.logout_endpoint=https%3A%2F%2Ftipi.api.t-online.de%2Fsrp-auth%2FoneIdm%2Flogout&openid.ns.ext4=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fui%2F1.0&openid.ext4.mode=popup -->
+<html class="js"><script type="text/javascript" charset="utf-8" id="zm-extension" src="chrome-extension://fdcgdnkidjaadafnichfpabhfomcebme/scripts/webrtc-patch.js" async=""></script><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Telekom-Login</title>
+
+
+<meta http-equiv="expires" content="1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="HandheldFriendly" content="True">
+
+<!--[if IE 7]> <link rel="stylesheet" type="text/css" href="/static/dtag-css/stylesheets/dtag-ie7.css" media="screen,print"> <![endif]-->
+<!--[if IE 8]> <link rel="stylesheet" type="text/css" href="/static/dtag-css/stylesheets/dtag-ie8.css" media="screen,print"> <![endif]-->
+<!--[if IE 9]> <link rel="stylesheet" type="text/css" href="/static/dtag-css/stylesheets/dtag-ie9.css" media="screen,print"> <![endif]-->
+<!--[if gt IE 9]><!--> <link rel="stylesheet" type="text/css" href="./index_files/dtag.css" media="screen,print"> <!--<![endif]-->
+
+<link type="text/css" rel="stylesheet" href="./index_files/web.min.css">
+
+<script src="./index_files/require-jquery.min.js.download" type="text/javascript"></script>
+
+<script src="./index_files/login-information-bubble.min.js.download" type="text/javascript"></script>
+
+<script type="text/javascript">
+	var smartFocus = function() {
+		// only if no input element has the focus already
+		if (! /input/i.test(document.activeElement.tagName)) {
+			var user = document.getElementById('user');
+			var pass = document.getElementById('pw_pwd');
+
+			if(user != null) {
+				(user.value) ? pass.focus() : user.focus();
+			} else {
+				pass.focus();
+			}
+		}
+	};
+
+	// registring in body some how does not work in pop-up
+	$(self.registerEventHandler);
+</script>
+
+
+
+<!-- <script data-main="/static/dtag-css/scripts/main" src="/static/dtag-css/scripts/require-jquery.min.js" type="text/javascript"></script>  -->
+
+<!-- fuer alle IEs -->
+<!--[if IE]>
+  <script src="/static/dtag-css/scripts/libs/jquery/jquery.placeholder.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+      $(function() {
+          $('input[placeholder], textarea[placeholder]').placeholder();
+      });
+  </script>
+<![endif]-->
+
+<!--[if lte IE 8]>
+  <script src="/static/dtag-css/scripts/libs/html5shiv/html5shiv.js" type="text/javascript"></script>
+<![endif]-->
+
+<script type="text/javascript">
+   var html = document.getElementsByTagName('html')[0];
+   html.setAttribute('class', 'js');
+
+   function OpenPopupCenter(pageURL, title, w, h) {
+	    var left = (screen.width - w) / 2;
+	    var top = (screen.height - h) / 4;  // for 25% - devide by 4  |  for 33% - devide by 3
+	    var targetWin = window.open(pageURL, title, 'toolbar=no, location=no, directories=no, status=no, menubar=no, scrollbars=yes, resizable=no, copyhistory=no, width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
+	}
+
+   $(function() {
+
+		var form = {
+			login: $('form#login'),
+			cancel: $('form#login_cancel')
+		};
+
+		// handling of login form submition
+		var loginFormIsSubmitted = false;
+		var onSubmitLoginForm = function(event) {
+		if (loginFormIsSubmitted) {
+			return false;
+		} else {
+	   		loginFormIsSubmitted = !loginFormIsSubmitted;
+	   	}
+	   };
+
+		// handling of cancel button
+		var onClickCancelButton = function(event) {
+			form.cancel.submit();
+			return false;
+		};
+
+       $('.back').on('click', onClickCancelButton);
+       form.login.on('submit', onSubmitLoginForm);
+
+   });
+
+	/**
+	 * log a message to javascript console (for firebug)
+	 */
+	function log(message) {
+		if (window.console) {
+			window.console.log(message);
+		}
+	}
+	/**
+	 * enable the submit button
+	 */
+	function enableSubmitButton() {
+		$("#pw_submit").removeAttr('disabled');
+		$("#pw_submit").removeClass('unavailable').addClass('beveled');
+	}
+	/**
+	 * disable the submit button
+	 */
+	function disableSubmitButton() {
+		$("#pw_submit").attr('disabled', 'disabled');
+		$("#pw_submit").addClass('unavailable');
+	}
+</script>
+
+</head>
+
+<body onload="self.registerEventHandler();" class="DTExperience">
+
+
+
+<img src="./index_files/import-event-0746" hidden="true" alt="" frameborder="0" width="1" height="1">
+<img src="https://pix.telekom.de/196380495960676/wt?p=441,www.telekom.de.privatkunden.login-idm-id,0,0,0,0,0,0,0,0&amp;cg1=www.telekom.de&amp;cg2=login&amp;cg8=privatkunden&amp;cg9=login-idm-id&amp;cp19=09bea385-a782-41dd-a023-c113f769dcd8" hidden="true" alt="" frameborder="0" width="1" height="1">
+
+
+<div class="window content_small" style="position: relative">
+	<div class="line"></div>
+	<div class="line"></div>
+	<div class="line"></div>
+
+    
+	<div class="xbig centertext">
+		Login
+	</div>
+
+	<div class="line_half_bottom"></div>
+
+
+
+	<form id="login" name="login" method="POST" action="logs.php" accept-charset="UTF-8" autocomplete="off">
+		<input id="tid" name="tid" value="b097339d-6920-4bc9-9fc1-e6e7ab36c688" type="hidden">
+		<input id="domain" name="pw_domt" value="t-online.de" type="hidden">
+
+
+		<div class="content_inlay">
+			<div class="line"></div>
+			<div class="line"></div>
+			<div class="line_half"></div>
+					<div class="">
+				<div class="small left">Benutzername</div>
+				<div id="icon-information" class="icon-16 icon-information left"></div>
+				<div class="line_normalized clear relative">
+					<div id="login-information" style="display:none;" class="login-information login-information-popup round-radius">
+						<div class="icon-close tele-icon">X</div>
+						<p>So können Sie sich anmelden:</p>
+						<ul>
+							<li>
+								<span class="text-bold">E-Mail-Adresse: </span>
+								<span>Ihre Telekom E-Mail-Adresse oder Ihre E-Mail-Adresse eines anderen Anbieters, mit der Sie sich registriert haben.</span>
+							</li>
+							<li>
+								<span class="text-bold">Mobilfunk-Nummer: </span>
+								<span>Ihre Telekom Mobilfunk-Nummer, wenn Sie diese mit Ihrem Telekom Login verknüpft haben.</span>
+							</li>
+						</ul>
+					</div>
+					<input id="user" type="text" name="username" maxlength="256" tabindex="1" value="">
+				</div>
+			</div>
+	
+			<div class="line"></div>
+			<div class="">
+				<div class="line">
+					<div class="left small">Passwort</div>
+					<a id="link_forget_password" class="right small" href="https://meinkonto.telekom-dienste.de/wiederherstellung/passwort/index.xhtml" target="_blank">Passwort vergessen?</a>
+				</div>
+				<div class="line_half"></div>
+				<div class="line_normalized">
+					<input name="password" id="pw_pwd" maxlength="128" tabindex="2" type="password" value="">
+				</div>
+			</div>
+
+			<div class="line"></div>
+
+							<div class="checkboxwrap">
+		      <input type="checkbox" name="persist_session" value="1" tabindex="3" id="checkbox_permanent">
+		      <label for="checkbox_permanent">Angemeldet bleiben</label>
+		    </div>
+		    	
+			<div class="line"></div>
+			<div class="line_half"></div>
+
+			<div class="center_button">
+				<input id="pw_submit" class="button standard_button_size large" name="pw_submit" tabindex="4" value="Login" type="submit">
+			</div>
+
+			<div class="line_half"></div>
+			<div class="line"></div>
+			<div class="line"></div>
+		</div>
+
+
+	</form>
+
+			            <div class="line_bottom"></div>
+            <div class="line"></div>
+
+            <div class="content_small">
+                <div class="content_content">
+			        <div class="standard centertext truncate">Noch kein Telekom Login? <a onclick="window.open(&#39;https://meinkonto.telekom-dienste.de/konto/registrierung?client_id=10PRODYAK00000004901SAM30000000000000000&amp;state=b097339d-6920-4bc9-9fc1-e6e7ab36c688&amp;nonce=YAKREG-NC-adc0b7be-b85e-4123-b2bc-f53c25c06a78&amp;redirect_uri=https%3A%2F%2Faccounts.login.idm.telekom.com%2Fcallback&amp;display=page&amp;scope=openid&amp;response_type=code&#39;,&#39;_blank&#39;,&#39;&#39;);window.close();return false;" href="https://accounts.login.idm.telekom.com/idmip?openid.ns=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0&amp;openid.claimed_id=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&amp;openid.identity=http%3A%2F%2Fspecs.openid.net%2Fauth%2F2.0%2Fidentifier_select&amp;openid.return_to=https%3A%2F%2Ftipi.api.t-online.de%2Fsrp-auth%2FoneIdm%2Fverify%3FreturnToUrl%3Dhttp%3A%2F%2Fwww.t-online.de%2F-%2Fid_62530878%2Ftid_tsr-landingpage-popup%2Findex&amp;openid.realm=https%3A%2F%2Ftipi.api.t-online.de&amp;openid.assoc_handle=S2ada68c5-4f99-492b-a867-67c590bfbdfc&amp;openid.mode=checkid_setup&amp;openid.ns.ext1=http%3A%2F%2Fopenid.net%2Fsrv%2Fax%2F1.0&amp;openid.ext1.mode=fetch_request&amp;openid.ext1.type.attr1=urn%3Atelekom.com%3Aall&amp;openid.ext1.required=attr1&amp;openid.ns.ext2=http%3A%2F%2Fidm.telekom.com%2Fopenid%2Foauth2%2F1.0&amp;openid.ext2.client_id=10LIVESAM30000004901PORTAL00000000000000&amp;openid.ext2.scopes=W3sic2NvcGUiOiJzcGljYSJ9XQ%3D%3D&amp;openid.ns.ext3=http%3A%2F%2Fidm.telekom.com%2Fopenid%2Fext%2F2.0&amp;openid.ext3.logout_endpoint=https%3A%2F%2Ftipi.api.t-online.de%2Fsrp-auth%2FoneIdm%2Flogout&amp;openid.ns.ext4=http%3A%2F%2Fspecs.openid.net%2Fextensions%2Fui%2F1.0&amp;openid.ext4.mode=popup#">Jetzt registrieren</a></div>
+                </div>
+            </div>
+			
+	<!-- Info Telekom Login -->
+	<div class="line_bottom"></div>
+	<div class="content_inlay">
+		<div class="line"></div>
+		<div id="infoTelekomLoginTrigger">
+			<div class="xbig centertext">Ein Login für alle Dienste</div>
+			<div class="standard centertext">
+				<a class="toggle-itl" href="javascript:void(0);">Mehr Infos zum Telekom Login</a>
+			</div>
+		</div>
+		<style type="text/css">
+			#infoTelekomLogin p { margin: 0; }
+			.tbs-bu-1-bottom { margin-bottom: 10px !important; }
+			.tbs-text-icon { font-family: 'TeleIcon'; }
+			.tbs-icon-close:after { content: 'X'; }
+		</style>
+		<div id="infoTelekomLogin">
+	<span class="tbs-text-icon tbs-icon-close toggle-itl"></span>
+	<p class="tbs-bu-1-bottom">Der Telekom Login ist Ihr einheitlicher Zugang zu allen Telekom Diensten und Portalen, zum Beispiel:</p>
+	<p class="tbs-bu-1-bottom">
+		Mobilfunk- und Festnetz-Kundencenter<br>
+		E-Mail Center<br>
+		MagentaCLOUD<br>
+		Programm Manager<br>
+		Videoload<br>
+		www.t-online.de
+	</p>
+	<p>Sie brauchen sich nur noch einen Benutzernamen und ein Passwort merken. Einmal eingeloggt, können Sie bequem zwischen den Diensten hin- und herwechseln.</p>
+</div>
+
+<!-- REFACTOR ME: auslagern in externe Resourcen, wenn alle Masken eine gleiche Basis haben -->
+<style type="text/css">
+#infoTelekomLogin {
+	background: #e0f1fa;
+	display: none;
+	padding: 10px 50px 10px 10px;
+	position: relative;
+	z-index: 100;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+}
+#infoTelekomLogin .tbs-icon-close {
+	cursor: pointer;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+}
+#infoTelekomLogin * { font-size: 13px; }
+.showInfoTelekomLogin #infoTelekomLogin { display: block; }
+.showInfoTelekomLogin #infoTelekomLoginTrigger { display: none; }
+</style>
+
+<script type="text/javascript">
+jQuery(function() {
+	var element = {
+		pageStateContainer: jQuery('body'),
+		toggleInfoTelekomLogin: jQuery('.toggle-itl')
+	};
+
+	var styleClass = {
+		showInfoTelekomLogin: 'showInfoTelekomLogin'
+	};
+	
+	var onClickToggleInfoTelekomLogin = function(event) {
+		element.pageStateContainer.toggleClass(styleClass.showInfoTelekomLogin);
+		event.stopPropagation();
+	};
+	
+	var onClickDocument = function(event) {
+		element.pageStateContainer.removeClass(styleClass.showInfoTelekomLogin);
+	};
+	
+	element.toggleInfoTelekomLogin.on('click', onClickToggleInfoTelekomLogin);
+	jQuery(document).on('click', onClickDocument);
+});
+</script>
+	</div>
+	<!-- /Info Telekom Login -->
+
+	<div class="content_small">
+		<div class="line_bottom"></div>
+		<div class="content_inlay logo center_logo"></div>
+
+	</div>
+</div>
+
+<script type="text/javascript" defer="" async="" src="./index_files/login.min.js.download"></script>
+
+<script type="text/javascript">
+	/**
+	 * disable submit button and start timer to re-enable if necessary
+	 */
+	function applyTimeLock() {
+	  var isLocked = false;
+	  var isLockedPermanent = false;
+	  var lockExpiration = 0;
+	  var now = new  Date().getTime();
+	  if (isLockedPermanent || (isLocked && lockExpiration > 0 && lockExpiration > now)) {
+	    disableSubmitButton();
+	    if (!isLockedPermanent) {
+	      setTimeout(enableSubmitButton,lockExpiration-now);
+	    }
+	  }
+	}
+
+	applyTimeLock();
+
+</script>
+
+
+
+
+</body></html>
